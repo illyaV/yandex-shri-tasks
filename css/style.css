@@ -166,7 +166,7 @@ button{
 .form-progress-bar {
   display: inline-block;
   position: absolute;
-  width: 400px;
+  width: 350px;
   line-height: 24px;
   right: 10px;
   top: 50%;

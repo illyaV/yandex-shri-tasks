@@ -30,7 +30,7 @@
   }
 
   Form.prototype.sendData = function(  ) {
-    
+    console.log('sendData');  
   };
 
   Form.prototype.checkData = function( $textarea ) {
@@ -47,10 +47,23 @@
   };
   
   Form.prototype.isValid = function( $textarea ) {
-    console.log( $textarea.val() );
-    if ( !$textarea.val() ) { 
+    var type = $textarea.data('type');
+    
+    if ( $.trim( $textarea.val() ).length === 0 ) { 
       return false;
     }
+
+    switch ( type ) {
+      case 'date':
+      break;
+      case 'string':
+      break;
+      case 'url':
+      break;
+      default:
+      break;
+    }
+    
 
     return true;
   };
