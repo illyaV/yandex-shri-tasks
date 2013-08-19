@@ -35,23 +35,30 @@
 
   Form.prototype.checkData = function( $textarea ) {
     var $header =  $textarea.parent().prev('h3')
-        progress = 0;
-
-    if ( this.isValid( $textarea ) ) {
-      $header.addClass('valid');
-    } else{
-      $header.removeClass('valid');  
+        progress = 0,
+        isValid = this.isValid( $textarea );
+       
+    
+    if ( isValid === true ) {
+      $header.addClass('valid').find('.form-question-header-msg').text('ОК');
+    } else {
+      $header.removeClass('valid').find('.form-question-header-msg').text( isValid );  
     }
 
     this.redrawProgressBar( this.getProgress() );
   };
   
   Form.prototype.isValid = function( $textarea ) {
-    var type = $textarea.data('type');
+    var type = $textarea.data('type'),
+        val = $.trim( $textarea.val() ),
+        msg = true,
+        regExp = {};
     
-    if ( $.trim( $textarea.val() ).length === 0 ) { 
-      return false;
+    if ( val.length < 4 ) { 
+      return '';
     }
+
+    regExp.url = /(^https?:\/\/)?[a-z0-9~_\-\.]+\.[a-z]{2,9}(\/|:|\?[!-~]*)?$/i;
 
     switch ( type ) {
       case 'date':
@@ -59,13 +66,13 @@
       case 'string':
       break;
       case 'url':
-      break;
-      default:
+        if( !regExp.url.test( val ) ){
+          msg = 'Вы не указали URL (или указали с ошибкой)';
+        }
       break;
     }
-    
 
-    return true;
+    return msg;
   };
   
   Form.prototype.redrawProgressBar = function( procent ) {
